@@ -4,13 +4,13 @@
  */
 
 function memoize(fn) {
-    const catched = {}
+    const cache = {}
     return function(...arg){
         const key = JSON.stringify(arg)
-        if(catched[key] == null){
-            catched[key] = fn(...arg)
+        if(cache[key] == null){
+            cache[key] = fn(...arg)
         }
-        return catched[key];
+        return cache[key];
     }
 }
 
