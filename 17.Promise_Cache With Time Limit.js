@@ -46,3 +46,31 @@ TimeLimitedCache.prototype.count = function() {
  * timeLimitedCache.get(1) // 42
  * timeLimitedCache.count() // 1
  */
+
+
+// Alternative Method Using Class syntactic suger 
+class TimeLimitedCache{
+    catch = new Map()
+
+    set(key,value, duration){
+        const existsTime = this.catch.get(key)
+        if(existsTime){
+            clearTimeout(existsTime.timeId)
+        }
+        const timeId = setTimeout(() => {
+            this.catch.delete(key)
+        }, duration)
+        this.catch.set(key, {value, timeId})
+        return Boolean(existsTime)
+    }
+    get(key){
+        if(this.catch.has(key)){
+            return this.catch.get(key).value;
+        }else{
+            return -1;
+        }
+    }
+    count(){
+        return this.catch.size;
+    }
+ }
